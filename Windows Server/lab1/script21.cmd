@@ -14,13 +14,15 @@ set username=UPart2%STR%
 set groupname=GPart2%STR%
 
 net user %username% >nul 2>&1
-if errorlevel NEQ 0 (
+
+if %errorlevel% EQU 0 (
     echo User with this name already exists
     goto:incorrect_input
 )
 
 net localgroup %groupname% >nul 2>&1
-if errorlevel NEQ 0 (
+
+if %errorlevel% EQU 0 (
     echo Group with this name already exists
     goto:incorrect_input
 )
