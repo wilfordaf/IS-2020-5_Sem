@@ -1,0 +1,1 @@
+Get-ADObject -Filter 'isdeleted -eq $true -and lastKnownParent -eq "OU=unit-for-delete,DC=YSN,DC=local"' -IncludeDeletedObjects | Restore-ADObject

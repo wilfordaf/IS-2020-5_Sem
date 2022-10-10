@@ -1,0 +1,6 @@
+full_name,post,department_name,email,phone,login,password,organization_unit,groups,home_dir_path,roaming_profile_path
+Lorem Lorem Lorem,Lorem,Lorem,Lorem@lorem.ipsum,88005553535,Lorem1,jango123#,unit-for-delete,gLorems,UsersHome,Lorem1
+Ipsum Ipsum Ipsum,Ipsum,Ipsum,Ipsum@ipsum.lorem,88005553535,Ipsum1,jango123#,unit-for-delete,gIpsums,UsersHome,Ipsum1
+Dolor Dolor Dolor,Dolor,Dolor,Dolor@lorem.dolor,88005553535,Dolor1,jango123#,unit-for-delete,gDolors,UsersHome,Dolor1
+Sit Sit Sit,Sit,Sit,Sit@dolor.ipsum,88005553535,Sit1,jango123#,unit-for-delete,gSit,UsersHome,Sit1
+Amet Amet Amet,Amet,Amet,Amet@ipsum.sit,88005553535,Amet1,jango123#,unit-for-delete,gAmet;gConsectetur,UsersHome,Amet1
