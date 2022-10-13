@@ -4,6 +4,7 @@ function Get-Value-By-Key-Csv {
 }
 
 # Global Variables
+$default_partition = (Get-ADDomainController).DefaultPartition
 $domain_controller_name = (Get-ADDomainController).Name
 $domain_name = $default_partition -replace "DC="
 $domain_name = $domain_name.split(",")[0]
@@ -57,7 +58,6 @@ foreach ($item in $input) {
     }
 
     # Creating Organization Unit
-    $default_partition = (Get-ADDomainController).DefaultPartition
     if (!(Get-ADOrganizationalUnit -Filter "Name -like '$organization_unit'")) {
         New-ADOrganizationalUnit -Name $organization_unit -Path $default_partition
         Write-Host "Successfully created organizational unit $organization_unit!"
