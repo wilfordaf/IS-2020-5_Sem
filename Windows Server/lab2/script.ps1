@@ -43,10 +43,10 @@ foreach ($item in $input) {
     $organization_unit = Get-Value-By-Key-Csv -csv $item -key organization_unit
 
     $home_dir_path = Get-Value-By-Key-Csv -csv $item -key home_dir_path
-    $home_dir_path = "\$home_dir_path\$login"
+    $home_dir_path = "\UsersHome$home_dir_path"
 
     $roaming_profile_path = Get-Value-By-Key-Csv -csv $item -key roaming_profile_path
-    $roaming_profile_path = "\\$domain_controller_name\SharedProfiles\$roaming_profile_path"
+    $roaming_profile_path = "\\$domain_controller_name\SharedProfiles$roaming_profile_path"
 
     $groups = Get-Value-By-Key-Csv -csv $item -key groups 
     $groups = $groups.Split(";")
@@ -95,6 +95,7 @@ foreach ($item in $input) {
     }
 }
 
+# Generate HTML report
 $html += $organization_units | ConvertTo-Html -As Table -Fragment -Property @{ l='OU Names'; e={ $_ } } -PreContent "<h2>Organization units total: $($organization_units.Length)</h2>"
 $html += $new_groups | ConvertTo-Html -As Table -Fragment -Property @{ l='Group Names'; e={ $_ } } -PreContent "<h2>Groups total: $($new_groups.Length)</h2>"
 $html += $logins | ConvertTo-Html -As Table -Fragment -Property @{ l='User Names'; e={ $_ } } -PreContent "<h2>Users total: $($logins.Length)</h2>"
