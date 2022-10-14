@@ -1,10 +1,13 @@
+param (
+    [string] $input_filename = $null
+)
+
 function Get-Value-By-Key-Csv {
     param([PSCustomObject]$csv, [string]$key)
     $csv.$key
 }
 
 # Global Variables
-$default_partition = (Get-ADDomainController).DefaultPartition
 $domain_controller_name = (Get-ADDomainController).Name
 $domain_name = $default_partition -replace "DC="
 $domain_name = $domain_name.split(",")[0]
@@ -16,8 +19,12 @@ $new_groups = @()
 $logins = @()
 $home_directories = @()
 
+# Check if entered a path
+if (!$input_filename) {
+    throw "You haven't entered a path!"
+}
+
 # Check if input file exists
-$input_filename = Read-Host "Enter a path to .csv file: "
 if (!(Test-Path -Path $input_filename -PathType Leaf)) {
     throw "File with this name does not exist"
 }
@@ -58,6 +65,7 @@ foreach ($item in $input) {
     }
 
     # Creating Organization Unit
+    $default_partition = (Get-ADDomainController).DefaultPartition
     if (!(Get-ADOrganizationalUnit -Filter "Name -like '$organization_unit'")) {
         New-ADOrganizationalUnit -Name $organization_unit -Path $default_partition
         Write-Host "Successfully created organizational unit $organization_unit!"
@@ -77,9 +85,9 @@ foreach ($item in $input) {
     if (!(Test-Path -Path $dir_local_path)) {
         New-Item -Path $dir_local_path -itemType Directory | out-null
         Write-Host "Sucessfully created directory $dir_local_path!"
+        $home_directories += $dir_local_path
     }
-    $home_directories += $dir_local_path
-
+    
     New-SmbShare -Name $login$ -Path $dir_local_path -ChangeAccess "$domain_name\$login" | out-null
     Set-ADUser -Identity $login -HomeDirectory $dir_remote_path -HomeDrive X;
 
@@ -95,7 +103,6 @@ foreach ($item in $input) {
     }
 }
 
-# Generate HTML report
 $html += $organization_units | ConvertTo-Html -As Table -Fragment -Property @{ l='OU Names'; e={ $_ } } -PreContent "<h2>Organization units total: $($organization_units.Length)</h2>"
 $html += $new_groups | ConvertTo-Html -As Table -Fragment -Property @{ l='Group Names'; e={ $_ } } -PreContent "<h2>Groups total: $($new_groups.Length)</h2>"
 $html += $logins | ConvertTo-Html -As Table -Fragment -Property @{ l='User Names'; e={ $_ } } -PreContent "<h2>Users total: $($logins.Length)</h2>"
