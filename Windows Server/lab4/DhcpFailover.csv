@@ -1,0 +1,2 @@
+ComputerName,ScopeId,Name,PartnerServer,ReservePercent,MaxClientLeadTime,StateSwitchInterval,SharedSecret,ServerRole
+AD-SRV,10.0.0.0,AD-SRV-2,10.0.0.7,35,00:30:00,00:01:00,123,Standby
